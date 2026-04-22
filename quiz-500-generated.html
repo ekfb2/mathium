@@ -313,7 +313,7 @@ function pick(n){if(locked)return;locked=true;total_ans++;const x=deck[i];docume
 function checkTyped(){if(locked)return;locked=true;total_ans++;const v=String(document.getElementById('ans').value).trim().toLowerCase();const ok=v===String(deck[i].answer).trim().toLowerCase();if(ok){score++;showFb('✓ Correct. '+deck[i].why,true)}else{showFb(`✗ Wrong. Answer: ${deck[i].answer}. ${deck[i].why}`,false)}scorebadge.textContent=`SCORE: ${score}`;document.getElementById('next').disabled=false;updateStats();}
 function next(){if(i>=deck.length-1){startDeck();return;}i++;render();}
 function restart(){startDeck();}
-async function sendChat(){const inp=document.getElementById('chatIn');const text=inp.value.trim();if(!text)return;addMsg(text,true);inp.value='';try{const res=await fetch('http://localhost:3000/api/chat',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({message:text})});const data=await res.json();addMsg(data.reply||'no reply.',false);}catch(e){addMsg('// backend offline. run: node server.js',false);}}
+async function sendChat(){const inp=document.getElementById('chatIn');const text=inp.value.trim();if(!text)return;addMsg(text,true);inp.value='';try{const res=await fetch('/api/chat',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({message:text})});const data=await res.json();addMsg(data.reply||'no reply.',false);}catch(e){addMsg('// backend offline. run: node server.js',false);}}
 function addMsg(text,me){const d=document.createElement('div');d.className=`msg ${me?'me':'ai'}`;d.textContent=text;msgs.appendChild(d);msgs.scrollTop=msgs.scrollHeight;}
 document.getElementById('chatIn').addEventListener('keydown',e=>{if(e.key==='Enter')sendChat();});startDeck();
 </script>
